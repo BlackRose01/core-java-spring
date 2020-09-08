@@ -14,6 +14,8 @@
 
 package eu.arrowhead.common.dto.shared;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;
@@ -64,15 +66,11 @@ public class SystemQueryFormDTO implements Serializable {
 
 	@Override
 	public String toString() {
-		return new StringJoiner(", ", SystemQueryFormDTO.class.getSimpleName() + "[", "]")
-				.add("systemNameRequirements='" + systemNameRequirements + "'")
-				.add("deviceNameRequirements='" + deviceNameRequirements + "'")
-				.add("metadataRequirements=" + metadataRequirements)
-				.add("versionRequirement=" + versionRequirement)
-				.add("minVersionRequirement=" + minVersionRequirement)
-				.add("maxVersionRequirement=" + maxVersionRequirement)
-				.add("pingProviders=" + pingProviders)
-				.toString();
+		try {
+			return new ObjectMapper().writeValueAsString(this);
+		} catch (final JsonProcessingException ex) {
+			return "toString failure";
+		}
 	}
 	//=================================================================================================
 	// assistant methods

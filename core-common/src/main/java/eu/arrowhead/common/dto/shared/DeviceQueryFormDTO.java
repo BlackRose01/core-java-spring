@@ -14,6 +14,8 @@
 
 package eu.arrowhead.common.dto.shared;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;
@@ -62,15 +64,11 @@ public class DeviceQueryFormDTO implements Serializable {
 
 	@Override
 	public String toString() {
-		return new StringJoiner(", ", DeviceQueryFormDTO.class.getSimpleName() + "[", "]")
-				.add("deviceNameRequirements='" + deviceNameRequirements + "'")
-				.add("addressRequirement='" + addressRequirement + "'")
-				.add("macAddressRequirement='" + macAddressRequirement + "'")
-				.add("metadataRequirements=" + metadataRequirements)
-				.add("versionRequirement=" + versionRequirement)
-				.add("minVersionRequirement=" + minVersionRequirement)
-				.add("maxVersionRequirement=" + maxVersionRequirement)
-				.toString();
+		try {
+			return new ObjectMapper().writeValueAsString(this);
+		} catch (final JsonProcessingException ex) {
+			return "toString failure";
+		}
 	}
 
 	//=================================================================================================
@@ -160,6 +158,15 @@ public class DeviceQueryFormDTO implements Serializable {
 		//-------------------------------------------------------------------------------------------------
 		public DeviceQueryFormDTO build() {
 			return new DeviceQueryFormDTO(this);
+		}
+
+		@Override
+		public String toString() {
+			try {
+				return new ObjectMapper().writeValueAsString(this);
+			} catch (final JsonProcessingException ex) {
+				return "toString failure";
+			}
 		}
 	}
 }

@@ -16,6 +16,8 @@ package eu.arrowhead.common.dto.shared;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;
@@ -67,9 +69,10 @@ public abstract class DeviceRegistryOnboardingResponseDTO extends DeviceRegistry
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", DeviceRegistryOnboardingResponseDTO.class.getSimpleName() + "[", "]")
-                .add("certificateResponse=" + certificateResponse)
-                .add("parent=" + super.toString())
-                .toString();
+        try {
+            return new ObjectMapper().writeValueAsString(this);
+        } catch (final JsonProcessingException ex) {
+            return "toString failure";
+        }
     }
 }

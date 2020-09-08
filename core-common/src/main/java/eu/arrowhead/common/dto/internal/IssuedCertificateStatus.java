@@ -14,6 +14,9 @@
 
 package eu.arrowhead.common.dto.internal;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public enum IssuedCertificateStatus {
     UNKNOWN("unknown"),
     GOOD("good"),
@@ -24,8 +27,13 @@ public enum IssuedCertificateStatus {
         this.name = name;
     }
 
+    @Override
     public String toString() {
-        return name;
+        try {
+            return new ObjectMapper().writeValueAsString(this);
+        } catch (final JsonProcessingException ex) {
+            return "toString failure";
+        }
     }
 
     private final String name;

@@ -14,6 +14,9 @@
 
 package eu.arrowhead.common.dto.shared;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.Serializable;
 import java.util.StringJoiner;
 
@@ -87,11 +90,10 @@ public class CertificateCreationResponseDTO implements Serializable {
 
     @Override
     public String toString() {
-        return new StringJoiner(", ", CertificateCreationResponseDTO.class.getSimpleName() + "[", "]")
-                .add("certificate='" + certificate + "'")
-                .add("certificateFormat=" + certificateFormat)
-                .add("certificateType=" + certificateType)
-                .add("keyPairDTO=" + keyPairDTO)
-                .toString();
+        try {
+            return new ObjectMapper().writeValueAsString(this);
+        } catch (final JsonProcessingException ex) {
+            return "toString failure";
+        }
     }
 }

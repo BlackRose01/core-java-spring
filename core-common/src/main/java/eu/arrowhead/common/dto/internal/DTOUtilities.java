@@ -14,6 +14,8 @@
 
 package eu.arrowhead.common.dto.internal;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -147,6 +149,15 @@ public class DTOUtilities {
 		final String operator = dto.getOperator();
 		if (operator != null) {
 			dto.setOperator(operator.toLowerCase().trim());
+		}
+	}
+
+	@Override
+	public String toString() {
+		try {
+			return new ObjectMapper().writeValueAsString(this);
+		} catch (final JsonProcessingException ex) {
+			return "toString failure";
 		}
 	}
 }

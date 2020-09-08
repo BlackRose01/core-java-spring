@@ -22,6 +22,8 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import eu.arrowhead.common.dto.shared.ErrorWrapperDTO;
 import eu.arrowhead.common.dto.shared.QoSMeasurementAttributesFormDTO;
 
@@ -86,5 +88,14 @@ public class GSDPollResponseDTO implements Serializable, ErrorWrapperDTO {
 	@Override
 	public boolean isError() {
 		return false;
+	}
+
+	@Override
+	public String toString() {
+		try {
+			return new ObjectMapper().writeValueAsString(this);
+		} catch (final JsonProcessingException ex) {
+			return "toString failure";
+		}
 	}
 }
